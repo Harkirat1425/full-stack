@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Product Filter with Dropdown using JavaScript DOM Manipulation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f7f7f7;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .filter-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 8px 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .product {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+    }
+
+    .product img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product h3 {
+      margin: 10px 0 5px;
+      color: #555;
+    }
+
+    .product p {
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dynamic Product Filter</h1>
+
+  <div class="filter-section">
+    <label for="categoryFilter"><strong>Filter by Category:</strong> </label>
+    <select id="categoryFilter">
+      <option value="all">All</option>
+      <option value="shoes">Shoes</option>
+      <option value="shirts">Shirts</option>
+      <option value="gadgets">Gadgets</option>
+    </select>
+  </div>
+
+  <div class="product-list" id="productList">
+    <div class="product" data-category="shoes">
+      <img src="https://via.placeholder.com/200x150?text=Running+Shoes" alt="Running Shoes">
+      <h3>Running Shoes</h3>
+      <p>Category: Shoes</p>
+    </div>
+
+    <div class="product" data-category="shirts">
+      <img src="https://via.placeholder.com/200x150?text=Cotton+Shirt" alt="Cotton Shirt">
+      <h3>Cotton Shirt</h3>
+      <p>Category: Shirts</p>
+    </div>
+
+    <div class="product" data-category="gadgets">
+      <img src="https://via.placeholder.com/200x150?text=Smart+Watch" alt="Smart Watch">
+      <h3>Smart Watch</h3>
+      <p>Category: Gadgets</p>
+    </div>
+
+    <div class="product" data-category="shoes">
+      <img src="https://via.placeholder.com/200x150?text=Sneakers" alt="Sneakers">
+      <h3>Sneakers</h3>
+      <p>Category: Shoes</p>
+    </div>
+
+    <div class="product" data-category="shirts">
+      <img src="https://via.placeholder.com/200x150?text=Formal+Shirt" alt="Formal Shirt">
+      <h3>Formal Shirt</h3>
+      <p>Category: Shirts</p>
+    </div>
+
+    <div class="product" data-category="gadgets">
+      <img src="https://via.placeholder.com/200x150?text=Wireless+Earbuds" alt="Wireless Earbuds">
+      <h3>Wireless Earbuds</h3>
+      <p>Category: Gadgets</p>
+    </div>
+  </div>
+
+  <script>
+    const filter = document.getElementById('categoryFilter');
+    const products = document.querySelectorAll('.product');
+
+    filter.addEventListener('change', function() {
+      const selectedCategory = this.value;
+
+      products.forEach(product => {
+        if (selectedCategory === 'all' || product.dataset.category === selectedCategory) {
+          product.style.display = 'block';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
