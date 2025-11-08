@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Base Styles */
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --header-color: #4CAF50;
+            --sidebar-color: #fff;
+            --footer-color: #ddd;
+            --link-color: #4CAF50;
+        }
+
+        body.dark {
+            --bg-color: #1e1e1e;
+            --text-color: #f4f4f4;
+            --header-color: #333;
+            --sidebar-color: #2c2c2c;
+            --footer-color: #222;
+            --link-color: #81c784;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: grid;
+            grid-template-rows: 60px 1fr 40px;
+            grid-template-columns: 200px 1fr;
+            grid-template-areas: 
+                "header header"
+                "sidebar main"
+                "footer footer";
+            min-height: 100vh;
+        }
+
+        header {
+            grid-area: header;
+            background-color: var(--header-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .theme-switch {
+            cursor: pointer;
+            background: none;
+            border: 2px solid white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        aside {
+            grid-area: sidebar;
+            background-color: var(--sidebar-color);
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        aside a {
+            display: block;
+            color: var(--link-color);
+            text-decoration: none;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        aside a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            grid-area: main;
+            padding: 20px;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: var(--footer-color);
+            text-align: center;
+            line-height: 40px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                grid-template-rows: 60px 1fr 40px;
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "header"
+                    "main"
+                    "footer";
+            }
+            aside {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <button class="theme-switch" onclick="toggleTheme()">Dark Mode</button>
+    </header>
+
+    <aside>
+        <a href="#">Home</a>
+        <a href="#">Users</a>
+        <a href="#">Settings</a>
+    </aside>
+
+    <main>
+        <h2>Welcome!</h2>
+        <p>This is your dashboard main content area.</p>
+        <p>Here you can display reports, analytics, and other important information.</p>
+    </main>
+
+    <footer>
+        &copy; 2025 Your Company. All rights reserved.
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const btn = document.querySelector('.theme-switch');
+            if(document.body.classList.contains('dark')) {
+                btn.textContent = 'Light Mode';
+            } else {
+                btn.textContent = 'Dark Mode';
+            }
+        }
+    </script>
+</body>
+</html>
