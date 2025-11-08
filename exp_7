@@ -1,0 +1,158 @@
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom/client';
+
+const App = () => {
+  // Initial book list
+  const [books, setBooks] = useState([
+    { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald' },
+    { title: '1984', author: 'George Orwell' },
+    { title: 'To Kill a Mockingbird', author: 'Harper Lee' },
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [newTitle, setNewTitle] = useState('');
+  const [newAuthor, setNewAuthor] = useState('');
+
+  // Filter books based on search term
+  const filteredBooks = books.filter(
+    (book) =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Add new book
+  const addBook = (e) => {
+    e.preventDefault();
+    if (newTitle.trim() === '' || newAuthor.trim() === '') return;
+    setBooks([...books, { title: newTitle, author: newAuthor }]);
+    setNewTitle('');
+    setNewAuthor('');
+  };
+
+  // Remove book by index
+  const removeBook = (index) => {
+    const updatedBooks = books.filter((_, i) => i !== index);
+    setBooks(updatedBooks);
+  };
+
+  return (
+    <div style={styles.container}>
+      <h1>Library Management</h1>
+
+      {/* Search Box */}
+      <input
+        type="text"
+        placeholder="Search by title or author..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={styles.searchInput}
+      />
+
+      {/* Add Book Form */}
+      <form onSubmit={addBook} style={styles.addForm}>
+        <input
+          type="text"
+          placeholder="Book Title"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          style={styles.input}
+        />
+        <input
+          type="text"
+          placeholder="Author"
+          value={newAuthor}
+          onChange={(e) => setNewAuthor(e.target.value)}
+          style={styles.input}
+        />
+        <button type="submit" style={styles.addButton}>Add Book</button>
+      </form>
+
+      {/* Book List */}
+      <ul style={styles.bookList}>
+        {filteredBooks.map((book, index) => (
+          <li key={index} style={styles.bookItem}>
+            <span>
+              <strong>{book.title}</strong> by {book.author}
+            </span>
+            <button
+              onClick={() => removeBook(index)}
+              style={styles.removeButton}
+            >
+              Remove
+            </button>
+          </li>
+        ))}
+        {filteredBooks.length === 0 && <p>No books found.</p>}
+      </ul>
+    </div>
+  );
+};
+
+// Inline CSS
+const styles = {
+  container: {
+    maxWidth: '600px',
+    margin: '50px auto',
+    padding: '20px',
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+  },
+  searchInput: {
+    width: '100%',
+    padding: '10px',
+    marginBottom: '20px',
+    fontSize: '16px',
+    borderRadius: '8px',
+    border: '1px solid #ccc',
+  },
+  addForm: {
+    display: 'flex',
+    gap: '10px',
+    marginBottom: '20px',
+    flexWrap: 'wrap',
+  },
+  input: {
+    flex: '1',
+    padding: '10px',
+    fontSize: '16px',
+    borderRadius: '8px',
+    border: '1px solid #ccc',
+  },
+  addButton: {
+    padding: '10px 20px',
+    fontSize: '16px',
+    borderRadius: '8px',
+    border: 'none',
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    cursor: 'pointer',
+  },
+  bookList: {
+    listStyle: 'none',
+    padding: 0,
+  },
+  bookItem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: '10px 15px',
+    marginBottom: '10px',
+    borderRadius: '8px',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+  },
+  removeButton: {
+    backgroundColor: '#f44336',
+    color: 'white',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '6px',
+    cursor: 'pointer',
+  },
+};
+
+// Render the App
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
