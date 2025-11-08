@@ -1,0 +1,60 @@
+// studentApp.js - Student Management System using MongoDB (MVC structure)
+const express = require("express");
+const mongoose = require("mongoose");
+const app = express();
+app.use(express.json());
+
+// MongoDB Connection
+mongoose.connect("mongodb://localhost:27017/studentDB", { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log("DB Connection Error:", err));
+
+// Model (Student)
+const studentSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  course: String
+});
+const Student = mongoose.model("Student", studentSchema);
+
+// Controller (CRUD functions)
+const studentController = {
+  getAll: async (req, res) => res.json(await Student.find()),
+  getOne: async (req, res) => {
+    const s = await Student.findById(req.params.id);
+    s ? res.json(s) : res.status(404).json({ message: "Student not found" });
+  },
+  add: async (req, res) => res.status(201).json(await new Student(req.body).save()),
+  update: async (req, res) => {
+    const s = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    s ? res.json(s) : res.status(404).json({ message: "Student not found" });
+  },
+  delete: async (req, res) => {
+    const s = await Student.findByIdAndDelete(req.params.id);
+    s ? res.json({ message: "Deleted successfully" }) : res.status(404).json({ message: "Not found" });
+  }
+};
+
+// Routes
+app.get("/students", studentController.getAll);
+app.get("/students/:id", studentController.getOne);
+app.post("/students", studentController.add);
+app.put("/students/:id", studentController.update);
+app.delete("/students/:id", studentController.delete);
+
+// Simple Frontend
+app.get("/", (req, res) => {
+  res.send(`
+    <h2>Student Management System (MongoDB + MVC)</h2>
+    <p>Use Postman or any REST client to test the following endpoints:</p>
+    <ul>
+      <li>GET /students - Get all students</li>
+      <li>POST /students - Add a new student</li>
+      <li>GET /students/:id - Get a student by ID</li>
+      <li>PUT /students/:id - Update a student</li>
+      <li>DELETE /students/:id - Delete a student</li>
+    </ul>
+  `);
+});
+
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));
